@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KOPIKAI — Coffee & Eatery Sangatta</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkCharcoal: '#121212',
+                        darkBrown: '#1a1412',
+                        warmGold: '#d4af37',
+                        caramel: '#c68b59',
+                        offWhite: '#f9f6f0',
+                        warmBeige: '#d8ccc2',
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #121212;
+            color: #f9f6f0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #121212;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2a221e;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #c68b59;
+        }
+    </style>
+</head>
+<body class="bg-darkCharcoal text-offWhite antialiased selection:bg-warmGold selection:text-black">
+
+    <!-- NAVBAR -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-darkCharcoal/80 backdrop-blur-md border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <a href="#" class="flex flex-col">
+                    <span class="font-serif font-bold text-2xl tracking-wider text-offWhite">KOPIKAI</span>
+                    <span class="text-[10px] tracking-[0.25em] text-warmGold uppercase font-semibold">COFFEE & EATERY</span>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="text-sm font-medium hover:text-warmGold transition-colors text-warmGold">Home</a>
+                    <a href="#menu" class="text-sm font-medium hover:text-warmGold transition-colors text-warmBeige">Menu</a>
+                    <a href="#promo" class="text-sm font-medium hover:text-warmGold transition-colors text-warmBeige">Promo</a>
+                    <a href="#event" class="text-sm font-medium hover:text-warmGold transition-colors text-warmBeige">Event</a>
+                    <a href="#gallery" class="text-sm font-medium hover:text-warmGold transition-colors text-warmBeige">Gallery</a>
+                    <a href="#about" class="text-sm font-medium hover:text-warmGold transition-colors text-warmBeige">About</a>
+                    <a href="#lokasi" class="text-sm font-medium hover:text-warmGold transition-colors text-warmBeige">Lokasi</a>
+                </div>
+
+                <!-- CTA Button -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <button onclick="openCartModal()" class="relative p-2 text-offWhite hover:text-warmGold transition-colors">
+                        <i class="fa-solid fa-bag-shopping text-xl"></i>
+                        <span id="cart-badge" class="absolute -top-1 -right-1 bg-warmGold text-black text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center hidden">0</span>
+                    </button>
+                    <button onclick="openCartModal()" class="bg-warmGold hover:bg-caramel text-black font-semibold px-5 py-2.5 rounded-full text-sm transition-all duration-300 shadow-lg shadow-warmGold/10">
+                        Order Now <i class="fa-solid fa-arrow-right ml-1.5 text-xs"></i>
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="flex md:hidden items-center space-x-3">
+                    <button onclick="openCartModal()" class="relative p-2 text-offWhite hover:text-warmGold">
+                        <i class="fa-solid fa-bag-shopping text-xl"></i>
+                        <span id="cart-badge-mobile" class="absolute -top-1 -right-1 bg-warmGold text-black text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center hidden">0</span>
+                    </button>
+                    <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="text-offWhite hover:text-warmGold p-2 focus:outline-none">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-darkBrown/95 backdrop-blur-lg border-b border-white/10 px-4 pt-4 pb-6 space-y-3">
+            <a href="#home" onclick="toggleMobileMenu()" class="block py-2 text-base font-medium text-warmGold">Home</a>
+            <a href="#menu" onclick="toggleMobileMenu()" class="block py-2 text-base font-medium text-warmBeige hover:text-warmGold">Menu</a>
+            <a href="#promo" onclick="toggleMobileMenu()" class="block py-2 text-base font-medium text-warmBeige hover:text-warmGold">Promo</a>
+            <a href="#event" onclick="toggleMobileMenu()" class="block py-2 text-base font-medium text-warmBeige hover:text-warmGold">Event</a>
+            <a href="#gallery" onclick="toggleMobileMenu()" class="block py-2 text-base font-medium text-warmBeige hover:text-warmGold">Gallery</a>
+            <a href="#about" onclick="toggleMobileMenu()" class="block py-2 text-base font-medium text-warmBeige hover:text-warmGold">About</a>
+            <a href="#lokasi" onclick="toggleMobileMenu()" class="block py-2 text-base font-medium text-warmBeige hover:text-warmGold">Lokasi</a>
+            <div class="pt-2">
+                <button onclick="toggleMobileMenu(); openCartModal();" class="w-full bg-warmGold hover:bg-caramel text-black font-semibold py-3 rounded-full text-center text-sm shadow-md">
+                    Order Now →
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section id="home" class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        <!-- Background Image with Overlay -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&q=80&w=1920" alt="Kopikai Interior" class="w-full h-full object-cover object-center scale-105 animate-pulse duration-[10000ms]">
+            <div class="absolute inset-0 bg-gradient-to-r from-darkCharcoal via-darkCharcoal/90 to-darkCharcoal/60"></div>
+            <div class="absolute inset-0 bg-black/40"></div>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 w-full">
+            <div class="max-w-2xl">
+                <!-- Badge -->
+                <div class="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/10 mb-6">
+                    <span class="w-2 h-2 rounded-full bg-warmGold animate-ping"></span>
+                    <span class="text-xs font-medium tracking-wide text-warmBeige uppercase">Sangatta's Finest Coffee Shop</span>
+                </div>
+
+                <h1 class="font-serif text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] mb-6">
+                    GOOD COFFEE.<br>
+                    GOOD FOOD.<br>
+                    <span class="text-warmGold">GOOD MOMENTS.</span>
+                </h1>
+
+                <p class="text-lg sm:text-xl text-warmBeige font-light mb-10 leading-relaxed">
+                    Tempat nongkrong terbaik di Sangatta, untuk cerita yang lebih seru dan pengalaman kuliner yang hangat.
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                    <a href="#menu" class="bg-warmGold hover:bg-caramel text-black font-bold px-8 py-4 rounded-full text-center transition-all duration-300 shadow-xl shadow-warmGold/20 flex items-center justify-center space-x-2">
+                        <span>Explore Menu</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                    <a href="#lokasi" class="bg-white/10 hover:bg-white/20 backdrop-blur-md text-offWhite font-semibold px-8 py-4 rounded-full text-center transition-all duration-300 border border-white/10 flex items-center justify-center">
+                        Visit Kopikai
+                    </a>
+                </div>
+
+                <!-- Features Mini Tags -->
+                <div class="mt-14 pt-8 border-t border-white/10 flex flex-wrap items-center gap-6 text-xs text-warmBeige tracking-wider uppercase font-medium">
+                    <span class="flex items-center"><i class="fa-solid fa-mug-hot text-warmGold mr-2"></i> Coffee</span>
+                    <span class="flex items-center"><i class="fa-solid fa-utensils text-warmGold mr-2"></i> Food</span>
+                    <span class="flex items-center"><i class="fa-solid fa-music text-warmGold mr-2"></i> Music</span>
+                    <span class="flex items-center"><i class="fa-solid fa-face-smile text-warmGold mr-2"></i> Good Vibes</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY KOPIKAI -->
+    <section class="py-20 bg-darkBrown/40 border-y border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-xs uppercase tracking-[0.25em] text-warmGold font-semibold block mb-3">Keunggulan Kami</span>
+                <h2 class="font-serif text-3xl sm:text-4xl font-bold tracking-tight">WHY KOPIKAI?</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Feature 1 -->
+                <div class="bg-darkCharcoal/60 p-8 rounded-2xl border border-white/5 hover:border-warmGold/40 transition-all duration-300 group">
+                    <div class="w-14 h-14 rounded-xl bg-warmGold/10 flex items-center justify-center text-warmGold text-2xl mb-6 group-hover:bg-warmGold group-hover:text-black transition-all duration-300">
+                        <i class="fa-solid fa-mug-saucer"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-bold mb-3 text-offWhite">Premium Coffee</h3>
+                    <p class="text-warmBeige text-sm leading-relaxed">Kopi berkualitas pilihan dengan biji kopi terbaik dan rasa yang konsisten di setiap seduhan.</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="bg-darkCharcoal/60 p-8 rounded-2xl border border-white/5 hover:border-warmGold/40 transition-all duration-300 group">
+                    <div class="w-14 h-14 rounded-xl bg-warmGold/10 flex items-center justify-center text-warmGold text-2xl mb-6 group-hover:bg-warmGold group-hover:text-black transition-all duration-300">
+                        <i class="fa-solid fa-burger"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-bold mb-3 text-offWhite">Delicious Food</h3>
+                    <p class="text-warmBeige text-sm leading-relaxed">Pilihan makanan berat dan snack lezat untuk menemani waktu nongkrong dan santap siang/malammu.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="bg-darkCharcoal/60 p-8 rounded-2xl border border-white/5 hover:border-warmGold/40 transition-all duration-300 group">
+                    <div class="w-14 h-14 rounded-xl bg-warmGold/10 flex items-center justify-center text-warmGold text-2xl mb-6 group-hover:bg-warmGold group-hover:text-black transition-all duration-300">
+                        <i class="fa-solid fa-guitar"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-bold mb-3 text-offWhite">Live Music</h3>
+                    <p class="text-warmBeige text-sm leading-relaxed">Nikmati akhir pekan yang meriah dengan event akustik dan live music spesial di Kopikai.</p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="bg-darkCharcoal/60 p-8 rounded-2xl border border-white/5 hover:border-warmGold/40 transition-all duration-300 group">
+                    <div class="w-14 h-14 rounded-xl bg-warmGold/10 flex items-center justify-center text-warmGold text-2xl mb-6 group-hover:bg-warmGold group-hover:text-black transition-all duration-300">
+                        <i class="fa-solid fa-couch"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-bold mb-3 text-offWhite">Cozy Ambience</h3>
+                    <p class="text-warmBeige text-sm leading-relaxed">Tempat nyaman ber-AC & outdoor, ideal untuk WFH, diskusi, kumpul bareng teman, atau me-time.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR FAVORITES / BEST SELLER -->
+    <section class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-16">
+            <div>
+                <span class="text-xs uppercase tracking-[0.25em] text-warmGold font-semibold block mb-3">Best Seller</span>
+                <h2 class="font-serif text-3xl sm:text-4xl font-bold tracking-tight">OUR FAVORITES</h2>
+                <p class="text-warmBeige mt-2">Menu pilihan yang selalu jadi favorit dan paling sering dipesan.</p>
+            </div>
+            <div class="mt-6 md:mt-0">
+                <a href="#menu" class="inline-flex items-center text-warmGold hover:text-offWhite font-semibold transition-colors">
+                    <span>Lihat Semua Menu</span>
+                    <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
+                </a>
+            </div>
+        </div>
+
+        <div id="favorites-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Dynamically populated via JS -->
+        </div>
+    </section>
+
+    <!-- SPECIAL PROMO BANNER -->
+    <section class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="relative rounded-3xl overflow-hidden bg-gradient-to-r from-darkBrown via-[#2a1e17] to-darkCharcoal border border-warmGold/30 p-8 sm:p-12 shadow-2xl">
+            <div class="absolute top-0 right-0 transform translate-x-8 -translate-y-8 w-64 h-64 bg-warmGold/10 rounded-full blur-3xl pointer-events-none"></div>
+            
+            <div class="relative z-10 flex flex-col lg:flex-row items-center justify-between">
+                <div class="mb-8 lg:mb-0 text-center lg:text-left">
+                    <span class="inline-block bg-warmGold text-black text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-4">Limited Time Offer</span>
+                    <h2 class="font-serif text-3xl sm:text-5xl font-bold text-offWhite mb-3">SPECIAL PROMO <span class="text-warmGold">BUY 2 GET 1</span></h2>
+                    <p class="text-warmBeige text-base sm:text-lg max-w-xl">Nikmati promo spesial untuk semua varian minuman kopi dan non-kopi setiap hari Senin–Kamis.</p>
+                </div>
+                <div>
+                    <a href="#menu" class="bg-warmGold hover:bg-caramel text-black font-bold px-8 py-4 rounded-full transition-all duration-300 shadow-lg shadow-warmGold/20 inline-flex items-center space-x-2">
+                        <span>Lihat Promo & Menu</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DIGITAL MENU SECTION -->
+    <section id="menu" class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <span class="text-xs uppercase tracking-[0.25em] text-warmGold font-semibold block mb-3">Katalog Kopikai</span>
+            <h2 class="font-serif text-3xl sm:text-4xl font-bold tracking-tight mb-4">DIGITAL MENU</h2>
+            <p class="text-warmBeige">Temukan berbagai varian kopi racikan barista, makanan berat, dan snack nikmat.</p>
+        </div>
+
+        <!-- Search & Filter Bar -->
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-12">
+            <!-- Search Input -->
+            <div class="relative w-full md:w-80">
+                <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-warmBeige text-sm"></i>
+                <input type="text" id="menu-search" oninput="filterMenu()" placeholder="Cari menu kesukaanmu..." class="w-full bg-darkBrown/60 border border-white/10 rounded-full pl-11 pr-4 py-3 text-sm text-offWhite placeholder-warmBeige/60 focus:outline-none focus:border-warmGold transition-colors">
+            </div>
+
+            <!-- Categories -->
+            <div id="category-filters" class="flex flex-wrap items-center justify-center gap-2 w-full md:w-auto">
+                <button onclick="setCategory('All')" class="cat-btn px-5 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all duration-300 bg-warmGold text-black" data-cat="All">All</button>
+                <button onclick="setCategory('Coffee')" class="cat-btn px-5 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all duration-300 bg-darkBrown text-warmBeige hover:bg-white/10" data-cat="Coffee">Coffee</button>
+                <button onclick="setCategory('Non Coffee')" class="cat-btn px-5 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all duration-300 bg-darkBrown text-warmBeige hover:bg-white/10" data-cat="Non Coffee">Non Coffee</button>
+                <button onclick="setCategory('Tea')" class="cat-btn px-5 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all duration-300 bg-darkBrown text-warmBeige hover:bg-white/10" data-cat="Tea">Tea</button>
+                <button onclick="setCategory('Food')" class="cat-btn px-5 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all duration-300 bg-darkBrown text-warmBeige hover:bg-white/10" data-cat="Food">Food</button>
+                <button onclick="setCategory('Snack')" class="cat-btn px-5 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all duration-300 bg-darkBrown text-warmBeige hover:bg-white/10" data-cat="Snack">Snack</button>
+            </div>
+        </div>
+
+        <!-- Menu Grid -->
+        <div id="menu-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Dynamically populated via JS -->
+        </div>
+    </section>
+
+    <!-- UPCOMING EVENT -->
+    <section id="event" class="py-20 bg-darkBrown/40 border-y border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-xs uppercase tracking-[0.25em] text-warmGold font-semibold block mb-3">Acara Spesial</span>
+                <h2 class="font-serif text-3xl sm:text-4xl font-bold tracking-tight">UPCOMING EVENT</h2>
+            </div>
+
+            <div class="max-w-4xl mx-auto bg-darkCharcoal rounded-3xl border border-white/10 overflow-hidden shadow-2xl grid grid-cols-1 md:grid-cols-2">
+                <div class="relative h-64 md:h-auto">
+                    <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=800" alt="Live Music" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-darkCharcoal md:hidden"></div>
+                </div>
+                <div class="p-8 sm:p-10 flex flex-col justify-between">
+                    <div>
+                        <span class="inline-block bg-warmGold/10 text-warmGold text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider mb-4">Akustik Malam Minggu</span>
+                        <h3 class="font-serif text-2xl sm:text-3xl font-bold mb-4 text-offWhite">Live Music Session</h3>
+                        <div class="space-y-3 text-warmBeige text-sm mb-6">
+                            <p class="flex items-center"><i class="fa-regular fa-calendar text-warmGold w-6"></i> Sabtu, 15 November 2026</p>
+                            <p class="flex items-center"><i class="fa-regular fa-clock text-warmGold w-6"></i> 19.00 WITA – selesai</p>
+                            <p class="flex items-center"><i class="fa-solid fa-location-dot text-warmGold w-6"></i> Kopikai Sangatta</p>
+                        </div>
+                        <p class="text-warmBeige/80 text-sm leading-relaxed mb-6">Nikmati sajian kopi hangat dan makanan favoritmu ditemani alunan musik akustik syahdu bersama musisi lokal terbaik.</p>
+                    </div>
+                    <div>
+                        <button onclick="showToast('Event berhasil dicatat di reminder kamu!')" class="w-full bg-warmGold hover:bg-caramel text-black font-semibold py-3 rounded-xl transition-all duration-300 text-sm">
+                            Amankan Tempat / RSVP
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY SECTION -->
+    <section id="gallery" class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <span class="text-xs uppercase tracking-[0.25em] text-warmGold font-semibold block mb-3">Visual Kopikai</span>
+            <h2 class="font-serif text-3xl sm:text-4xl font-bold tracking-tight mb-4">A GLIMPSE OF KOPIKAI</h2>
+            <p class="text-warmBeige">Suasana hangat, estetik, dan nyaman di setiap sudut Kopikai Sangatta.</p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 auto-rows-[200px]">
+            <div class="rounded-2xl overflow-hidden group relative cursor-pointer row-span-2" onclick="openLightbox(this.querySelector('img').src)">
+                <img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&q=80&w=800" alt="Cafe Interior" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <i class="fa-solid fa-expand text-white text-2xl"></i>
+                </div>
+            </div>
+            <div class="rounded-2xl overflow-hidden group relative cursor-pointer" onclick="openLightbox(this.querySelector('img').src)">
+                <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80&w=800" alt="Coffee Cup" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <i class="fa-solid fa-expand text-white text-xl"></i>
+                </div>
+            </div>
+            <div class="rounded-2xl overflow-hidden group relative cursor-pointer" onclick="openLightbox(this.querySelector('img').src)">
+                <img src="https://images.unsplash.com/photo-1559496417-e7f25cb247f3?auto=format&fit=crop&q=80&w=800" alt="Barista" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <i class="fa-solid fa-expand text-white text-xl"></i>
+                </div>
+            </div>
+            <div class="rounded-2xl overflow-hidden group relative cursor-pointer row-span-2" onclick="openLightbox(this.querySelector('img').src)">
+                <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&q=80&w=800" alt="Cozy Vibe" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <i class="fa-solid fa-expand text-white text-2xl"></i>
+                </div>
+            </div>
+            <div class="rounded-2xl overflow-hidden group relative cursor-pointer" onclick="openLightbox(this.querySelector('img').src)">
+                <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80&w=800" alt="Hanging Out" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <i class="fa-solid fa-expand text-white text-xl"></i>
+                </div>
+            </div>
+            <div class="rounded-2xl overflow-hidden group relative cursor-pointer" onclick="openLightbox(this.querySelector('img').src)">
+                <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=80&w=800" alt="Food & Snack" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <i class="fa-solid fa-expand text-white text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT KOPIKAI -->
+    <section id="about" class="py-24 bg-darkBrown/40 border-y border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <span class="text-xs uppercase tracking-[0.25em] text-warmGold font-semibold block mb-3">Cerita Kami</span>
+                    <h2 class="font-serif text-3xl sm:text-5xl font-bold tracking-tight mb-6">MORE THAN JUST COFFEE.</h2>
+                    <p class="text-warmBeige text-base sm:text-lg leading-relaxed mb-6">
+                        Kopikai hadir di Sangatta sebagai ruang temu, tempat bercerita, dan destinasi kuliner favorit bagi anak muda maupun profesional. Kami menyajikan racikan kopi berkualitas tinggi dipadu dengan makanan lezat berstandar kafe modern.
+                    </p>
+                    <p class="text-warmBeige text-base sm:text-lg leading-relaxed mb-8">
+                        Dengan suasana hangat dan interior estetik, setiap kunjungan ke Kopikai dirancang untuk memberikan momen berharga yang tak terlupakan.
+                    </p>
+
+                    <!-- Stats -->
+                    <div class="grid grid-cols-3 gap-6 pt-6 border-t border-white/10">
+                        <div>
+                            <span class="font-serif text-3xl sm:text-4xl font-bold text-warmGold block">100+</span>
+                            <span class="text-xs text-warmBeige uppercase tracking-wider">Happy Customers</span>
+                        </div>
+                        <div>
+                            <span class="font-serif text-3xl sm:text-4xl font-bold text-warmGold block">20+</span>
+                            <span class="text-xs text-warmBeige uppercase tracking-wider">Menu Pilihan</span>
+                        </div>
+                        <div>
+                            <span class="font-serif text-3xl sm:text-4xl font-bold text-warmGold block">7 Days</span>
+                            <span class="text-xs text-warmBeige uppercase tracking-wider">Open Daily</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <div class="absolute inset-0 bg-warmGold/10 rounded-3xl blur-2xl"></div>
+                    <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&q=80&w=1000" alt="Kopikai Story" class="relative rounded-3xl shadow-2xl border border-white/10 w-full object-cover h-[450px]">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & VISIT -->
+    <section id="lokasi" class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <span class="text-xs uppercase tracking-[0.25em] text-warmGold font-semibold block mb-3">Lokasi & Jam Buka</span>
+            <h2 class="font-serif text-3xl sm:text-4xl font-bold tracking-tight mb-4">VISIT KOPIKAI</h2>
+            <p class="text-warmBeige">Datang dan rasakan langsung kehangatan suasana Kopikai Sangatta.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Info Card -->
+            <div class="bg-darkCharcoal p-8 rounded-3xl border border-white/10 flex flex-col justify-between space-y-6">
+                <div>
+                    <h3 class="font-serif text-2xl font-bold mb-6 text-offWhite">Kopikai Sangatta</h3>
+                    
+                    <div class="space-y-4 text-warmBeige text-sm">
+                        <div class="flex items-start space-x-3">
+                            <i class="fa-solid fa-location-dot text-warmGold mt-1 text-lg"></i>
+                            <p>Jl. Soekarno Hatta No. 5<br>Swarga Bara, Sangatta Utara<br>Kutai Timur, Kalimantan Timur</p>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <i class="fa-regular fa-clock text-warmGold mt-1 text-lg"></i>
+                            <div>
+                                <p class="font-semibold text-offWhite">Open Daily</p>
+                                <p>10.00 – 23.00 WITA</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-3 pt-6 border-t border-white/10">
+                    <a href="https://maps.google.com" target="_blank" class="w-full bg-warmGold hover:bg-caramel text-black font-semibold py-3.5 rounded-xl transition-all text-center block text-sm shadow-lg shadow-warmGold/10">
+                        <i class="fa-solid fa-map-location-dot mr-2"></i> Buka Google Maps
+                    </a>
+                    <a href="https://whatsapp.com" target="_blank" class="w-full bg-white/10 hover:bg-white/20 text-offWhite font-semibold py-3.5 rounded-xl transition-all text-center block text-sm border border-white/10">
+                        <i class="fa-brands fa-whatsapp mr-2"></i> Hubungi WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- Map Placeholder -->
+            <div class="lg:col-span-2 rounded-3xl overflow-hidden border border-white/10 relative min-h-[400px] bg-darkBrown">
+                <div class="absolute inset-0 flex flex-col items-center justify-center bg-[#1a1412] p-8 text-center">
+                    <div class="w-16 h-16 rounded-full bg-warmGold/10 text-warmGold flex items-center justify-center text-3xl mb-4 animate-bounce">
+                        <i class="fa-solid fa-map-pin"></i>
+                    </div>
+                    <h4 class="font-serif text-xl font-bold mb-2">Jl. Soekarno Hatta No. 5, Sangatta</h4>
+                    <p class="text-warmBeige text-sm max-w-md mb-6">Lokasi strategis di jantung kota Sangatta, mudah diakses dengan kendaraan roda dua maupun roda empat.</p>
+                    <a href="https://maps.google.com" target="_blank" class="bg-warmGold hover:bg-caramel text-black font-semibold px-6 py-3 rounded-full text-sm transition-all shadow-md">
+                        Petunjuk Arah (Google Maps)
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL / INSTAGRAM SECTION -->
+    <section class="py-20 bg-darkBrown/40 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <span class="text-xs uppercase tracking-[0.25em] text-warmGold font-semibold block mb-3">Let's Connect</span>
+            <h2 class="font-serif text-3xl sm:text-4xl font-bold tracking-tight mb-4">@kopikai.sgt</h2>
+            <p class="text-warmBeige max-w-xl mx-auto mb-8">Follow Instagram kami untuk mendapatkan info terbaru tentang menu, promo, dan event seru lainnya.</p>
+            <div class="flex items-center justify-center space-x-4 mb-10">
+                <a href="https://instagram.com" target="_blank" class="w-12 h-12 rounded-full bg-darkCharcoal border border-white/10 flex items-center justify-center text-warmGold hover:bg-warmGold hover:text-black transition-all text-xl"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://tiktok.com" target="_blank" class="w-12 h-12 rounded-full bg-darkCharcoal border border-white/10 flex items-center justify-center text-warmGold hover:bg-warmGold hover:text-black transition-all text-xl"><i class="fa-brands fa-tiktok"></i></a>
+                <a href="https://whatsapp.com" target="_blank" class="w-12 h-12 rounded-full bg-darkCharcoal border border-white/10 flex items-center justify-center text-warmGold hover:bg-warmGold hover:text-black transition-all text-xl"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+            <a href="https://instagram.com" target="_blank" class="inline-flex items-center space-x-2 bg-white/10 hover:bg-white/20 border border-white/10 text-offWhite px-8 py-3.5 rounded-full font-semibold text-sm transition-all">
+                <i class="fa-brands fa-instagram"></i>
+                <span>Follow Instagram</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- ORDER CTA SECTION -->
+    <section class="py-24 relative overflow-hidden bg-gradient-to-b from-darkCharcoal to-darkBrown">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-warmGold/10 via-transparent to-transparent"></div>
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <h2 class="font-serif text-3xl sm:text-5xl font-bold tracking-tight mb-6">READY FOR YOUR NEXT COFFEE BREAK?</h2>
+            <p class="text-warmBeige text-lg max-w-xl mx-auto mb-10">Nikmati kopi, makanan, dan suasana terbaik Kopikai Sangatta hari ini.</p>
+            <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <button onclick="openCartModal()" class="w-full sm:w-auto bg-warmGold hover:bg-caramel text-black font-bold px-8 py-4 rounded-full transition-all duration-300 shadow-xl shadow-warmGold/20">
+                    Order Now →
+                </button>
+                <a href="#lokasi" class="w-full sm:w-auto bg-white/10 hover:bg-white/20 backdrop-blur-md text-offWhite font-semibold px-8 py-4 rounded-full transition-all duration-300 border border-white/10">
+                    Visit Us
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-black py-16 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between pb-12 border-b border-white/10 gap-8">
+                <div>
+                    <span class="font-serif font-bold text-2xl tracking-wider text-offWhite block mb-1">KOPIKAI</span>
+                    <span class="text-[10px] tracking-[0.25em] text-warmGold uppercase font-semibold">COFFEE & EATERY</span>
+                </div>
+                <div class="flex flex-wrap gap-6 text-sm text-warmBeige">
+                    <a href="#home" class="hover:text-warmGold transition-colors">Home</a>
+                    <a href="#menu" class="hover:text-warmGold transition-colors">Menu</a>
+                    <a href="#promo" class="hover:text-warmGold transition-colors">Promo</a>
+                    <a href="#event" class="hover:text-warmGold transition-colors">Event</a>
+                    <a href="#gallery" class="hover:text-warmGold transition-colors">Gallery</a>
+                    <a href="#about" class="hover:text-warmGold transition-colors">About</a>
+                    <a href="#lokasi" class="hover:text-warmGold transition-colors">Lokasi</a>
+                </div>
+            </div>
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-warmBeige/60 gap-4">
+                <p>&copy; 2026 Kopikai Coffee & Eatery. All rights reserved.</p>
+                <p>Sangatta, Kalimantan Timur</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- LIGHTBOX MODAL -->
+    <div id="lightbox-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden items-center justify-center p-4" onclick="closeLightbox()">
+        <button class="absolute top-6 right-6 text-white text-3xl hover:text-warmGold focus:outline-none">&times;</button>
+        <img id="lightbox-img" src="" alt="Lightbox Zoom" class="max-w-full max-h-[85vh] rounded-2xl shadow-2xl object-contain">
+    </div>
+
+    <!-- ORDER / CART MODAL -->
+    <div id="cart-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-darkCharcoal rounded-3xl border border-white/10 w-full max-w-xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
+            <!-- Modal Header -->
+            <div class="p-6 border-b border-white/10 flex items-center justify-between">
+                <div>
+                    <h3 class="font-serif text-xl font-bold text-offWhite">Kopikai Order Drawer</h3>
+                    <p class="text-xs text-warmBeige">Demo Frontend Ordering Experience</p>
+                </div>
+                <button onclick="closeCartModal()" class="text-warmBeige hover:text-offWhite text-xl p-2"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-6 overflow-y-auto space-y-6 flex-1">
+                <!-- Dine Type Selection -->
+                <div>
+                    <label class="block text-xs font-semibold text-warmBeige uppercase tracking-wider mb-3">Metode Pesanan</label>
+                    <div class="grid grid-cols-2 gap-4">
+                        <button type="button" id="dine-in-btn" onclick="setServiceType('Dine In')" class="py-3 px-4 rounded-xl border border-warmGold bg-warmGold/10 text-warmGold font-semibold text-sm transition-all text-center">Dine In</button>
+                        <button type="button" id="take-away-btn" onclick="setServiceType('Take Away')" class="py-3 px-4 rounded-xl border border-white/10 bg-darkBrown text-warmBeige font-semibold text-sm transition-all text-center">Take Away</button>
+                    </div>
+                </div>
+
+                <!-- Cart Items List -->
+                <div>
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-semibold text-warmBeige uppercase tracking-wider">Keranjang Pesanan</span>
+                        <span id="cart-item-count" class="text-xs text-warmGold">0 item</span>
+                    </div>
+                    <div id="cart-items-container" class="space-y-3 max-h-60 overflow-y-auto pr-1">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+
+                <!-- Subtotal -->
+                <div class="pt-4 border-t border-white/10 flex items-center justify-between">
+                    <span class="text-sm font-semibold text-warmBeige">Subtotal</span>
+                    <span id="cart-subtotal" class="font-serif text-xl font-bold text-warmGold">Rp0</span>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="p-6 border-t border-white/10 bg-darkBrown/50 flex items-center space-x-4">
+                <button onclick="closeCartModal()" class="flex-1 bg-white/10 hover:bg-white/20 text-offWhite font-semibold py-3.5 rounded-xl text-sm transition-all">Lanjut Pilih Menu</button>
+                <button onclick="checkoutOrder()" class="flex-1 bg-warmGold hover:bg-caramel text-black font-bold py-3.5 rounded-xl text-sm transition-all shadow-lg shadow-warmGold/10">Checkout Demo</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 bg-darkBrown border border-warmGold/50 text-offWhite px-6 py-3.5 rounded-2xl shadow-2xl transform translate-y-32 opacity-0 transition-all duration-300 flex items-center space-x-3">
+        <i class="fa-solid fa-circle-check text-warmGold text-lg"></i>
+        <span id="toast-msg" class="text-sm font-medium">Notifikasi berhasil!</span>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Dummy Data Structure
+        const products = [
+            { id: 1, name: "Kopi Susu Kopikai", category: "Coffee", price: 18000, desc: "Signature espresso dengan fresh milk dan gula aren pilihan.", image: "https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&q=80&w=600" },
+            { id: 2, name: "Matcha Latte", category: "Non Coffee", price: 22000, desc: "Premium matcha Jepang dengan creamy milk yang lembut.", image: "https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&q=80&w=600" },
+            { id: 3, name: "Chocolate Latte", category: "Non Coffee", price: 20000, desc: "Dark chocolate rich dengan paduan susu segar hangat/dingin.", image: "https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?auto=format&fit=crop&q=80&w=600" },
+            { id: 4, name: "Americano", category: "Coffee", price: 15000, desc: "Double shot espresso dengan hot/iced water segar.", image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&q=80&w=600" },
+            { id: 5, name: "Caramel Latte", category: "Coffee", price: 22000, desc: "Espresso, fresh milk, dan sweet caramel syrup signature.", image: "https://images.unsplash.com/photo-1485808191679-5f86510681a2?auto=format&fit=crop&q=80&w=600" },
+            { id: 6, name: "French Fries", category: "Snack", price: 18000, desc: "Kentang goreng renyah dengan bumbu tabur gurih.", image: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&q=80&w=600" },
+            { id: 7, name: "Lychee Tea", category: "Tea", price: 18000, desc: "Teh melati segar dengan buah lychee utuh manis.", image: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&q=80&w=600" },
+            { id: 8, name: "Nasi Goreng Kopikai", category: "Food", price: 28000, desc: "Nasi goreng rempah khas Kopikai dengan telur dan ayam suwir.", image: "https://images.unsplash.com/photo-1603133872878-684f208fb84b?auto=format&fit=crop&q=80&w=600" },
+            { id: 9, name: "Chicken Wings", category: "Snack", price: 25000, desc: "Sayap ayam crispy dengan saus BBQ pedas manis.", image: "https://images.unsplash.com/photo-1527477396000-e27163b481c2?auto=format&fit=crop&q=80&w=600" }
+        ];
+
+        let cart = [];
+        let currentCategory = 'All';
+        let serviceType = 'Dine In';
+
+        // Initialize Page
+        document.addEventListener('DOMContentLoaded', () => {
+            renderFavorites();
+            renderMenu(products);
+        });
+
+        // Render Favorites (First 6 items)
+        function renderFavorites() {
+            const container = document.getElementById('favorites-grid');
+            const favs = products.slice(0, 6);
+            container.innerHTML = favs.map(p => `
+                <div class="bg-darkCharcoal rounded-2xl border border-white/10 overflow-hidden group hover:border-warmGold/40 transition-all duration-300 flex flex-col justify-between">
+                    <div>
+                        <div class="relative h-48 overflow-hidden">
+                            <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <span class="absolute top-3 right-3 bg-darkCharcoal/80 backdrop-blur-md text-warmGold text-[11px] font-semibold px-2.5 py-1 rounded-full border border-white/10">${p.category}</span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-serif text-xl font-bold mb-2 text-offWhite">${p.name}</h3>
+                            <p class="text-warmBeige text-sm line-clamp-2 mb-4">${p.desc}</p>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6 pt-0 flex items-center justify-between">
+                        <span class="font-serif text-lg font-bold text-warmGold">Rp${p.price.toLocaleString('id-ID')}</span>
+                        <button onclick="addToCart(${p.id})" class="bg-warmGold/10 hover:bg-warmGold text-warmGold hover:text-black font-semibold px-4 py-2 rounded-xl text-xs transition-all duration-300 border border-warmGold/30">
+                            + Tambah
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Render Menu
+        function renderMenu(items) {
+            const container = document.getElementById('menu-grid');
+            if (items.length === 0) {
+                container.innerHTML = `<div class="col-span-full text-center py-12 text-warmBeige">Menu tidak ditemukan.</div>`;
+                return;
+            }
+            container.innerHTML = items.map(p => `
+                <div class="bg-darkCharcoal rounded-2xl border border-white/10 overflow-hidden group hover:border-warmGold/40 transition-all duration-300 flex flex-col justify-between">
+                    <div>
+                        <div class="relative h-48 overflow-hidden">
+                            <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <span class="absolute top-3 right-3 bg-darkCharcoal/80 backdrop-blur-md text-warmGold text-[11px] font-semibold px-2.5 py-1 rounded-full border border-white/10">${p.category}</span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-serif text-xl font-bold mb-2 text-offWhite">${p.name}</h3>
+                            <p class="text-warmBeige text-sm line-clamp-2 mb-4">${p.desc}</p>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6 pt-0 flex items-center justify-between">
+                        <span class="font-serif text-lg font-bold text-warmGold">Rp${p.price.toLocaleString('id-ID')}</span>
+                        <button onclick="addToCart(${p.id})" class="bg-warmGold/10 hover:bg-warmGold text-warmGold hover:text-black font-semibold px-4 py-2 rounded-xl text-xs transition-all duration-300 border border-warmGold/30">
+                            + Pesan
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Category Filter
+        function setCategory(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                if (btn.dataset.cat === cat) {
+                    btn.className = "cat-btn px-5 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all duration-300 bg-warmGold text-black";
+                } else {
+                    btn.className = "cat-btn px-5 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all duration-300 bg-darkBrown text-warmBeige hover:bg-white/10";
+                }
+            });
+            filterMenu();
+        }
+
+        // Search & Filter Combined
+        function filterMenu() {
+            const query = document.getElementById('menu-search').value.toLowerCase();
+            const filtered = products.filter(p => {
+                const matchCat = currentCategory === 'All' || p.category === currentCategory;
+                const matchQuery = p.name.toLowerCase().includes(query) || p.desc.toLowerCase().includes(query);
+                return matchCat && matchQuery;
+            });
+            renderMenu(filtered);
+        }
+
+        // Cart Actions
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existing = cart.find(item => item.id === productId);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ ...product, qty: 1 });
+            }
+            updateCartBadge();
+            showToast(`${product.name} ditambahkan ke keranjang`);
+        }
+
+        function updateCartBadge() {
+            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            const badges = [document.getElementById('cart-badge'), document.getElementById('cart-badge-mobile')];
+            badges.forEach(b => {
+                if (totalItems > 0) {
+                    b.innerText = totalItems;
+                    b.classList.remove('hidden');
+                } else {
+                    b.classList.add('hidden');
+                }
+            });
+        }
+
+        function openCartModal() {
+            renderCartItems();
+            document.getElementById('cart-modal').classList.remove('hidden');
+            document.getElementById('cart-modal').classList.add('flex');
+        }
+
+        function closeCartModal() {
+            document.getElementById('cart-modal').classList.remove('flex');
+            document.getElementById('cart-modal').classList.add('hidden');
+        }
+
+        function setServiceType(type) {
+            serviceType = type;
+            const dineBtn = document.getElementById('dine-in-btn');
+            const takeBtn = document.getElementById('take-away-btn');
+            if (type === 'Dine In') {
+                dineBtn.className = "py-3 px-4 rounded-xl border border-warmGold bg-warmGold/10 text-warmGold font-semibold text-sm transition-all text-center";
+                takeBtn.className = "py-3 px-4 rounded-xl border border-white/10 bg-darkBrown text-warmBeige font-semibold text-sm transition-all text-center";
+            } else {
+                takeBtn.className = "py-3 px-4 rounded-xl border border-warmGold bg-warmGold/10 text-warmGold font-semibold text-sm transition-all text-center";
+                dineBtn.className = "py-3 px-4 rounded-xl border border-white/10 bg-darkBrown text-warmBeige font-semibold text-sm transition-all text-center";
+            }
+        }
+
+        function renderCartItems() {
+            const container = document.getElementById('cart-items-container');
+            const countEl = document.getElementById('cart-item-count');
+            const subtotalEl = document.getElementById('cart-subtotal');
+
+            const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+            countEl.innerText = `${totalCount} item`;
+
+            if (cart.length === 0) {
+                container.innerHTML = `<p class="text-warmBeige text-sm text-center py-6">Keranjang kamu masih kosong.</p>`;
+                subtotalEl.innerText = `Rp0`;
+                return;
+            }
+
+            let subtotal = 0;
+            container.innerHTML = cart.map(item => {
+                subtotal += item.price * item.qty;
+                return `
+                    <div class="flex items-center justify-between bg-darkBrown/60 p-3.5 rounded-xl border border-white/5">
+                        <div class="flex items-center space-x-3">
+                            <img src="${item.image}" alt="${item.name}" class="w-12 h-12 rounded-lg object-cover">
+                            <div>
+                                <h4 class="text-sm font-bold text-offWhite">${item.name}</h4>
+                                <span class="text-xs text-warmGold">Rp${item.price.toLocaleString('id-ID')}</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="updateQty(${item.id}, -1)" class="w-7 h-7 rounded-lg bg-white/10 hover:bg-white/20 text-offWhite flex items-center justify-center text-xs">-</button>
+                            <span class="text-sm font-semibold w-6 text-center">${item.qty}</span>
+                            <button onclick="updateQty(${item.id}, 1)" class="w-7 h-7 rounded-lg bg-white/10 hover:bg-white/20 text-offWhite flex items-center justify-center text-xs">+</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            subtotalEl.innerText = `Rp${subtotal.toLocaleString('id-ID')}`;
+        }
+
+        function updateQty(id, delta) {
+            const item = cart.find(i => i.id === id);
+            if (item) {
+                item.qty += delta;
+                if (item.qty <= 0) {
+                    cart = cart.filter(i => i.id !== id);
+                }
+            }
+            updateCartBadge();
+            renderCartItems();
+        }
+
+        function checkoutOrder() {
+            if (cart.length === 0) {
+                showToast('Pilih menu terlebih dahulu!');
+                return;
+            }
+            closeCartModal();
+            cart = [];
+            updateCartBadge();
+            
+            const orderNum = `#KPK-${Math.floor(1000 + Math.random() * 9000)}`;
+            showToast(`Pesanan ${orderNum} berhasil dibuat! Status: Order Received`);
+        }
+
+        // Lightbox
+        function openLightbox(imgSrc) {
+            document.getElementById('lightbox-img').src = imgSrc;
+            const modal = document.getElementById('lightbox-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeLightbox() {
+            const modal = document.getElementById('lightbox-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Toast Notification
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-msg');
+            toastMsg.innerText = msg;
+            toast.classList.remove('translate-y-32', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-32', 'opacity-0');
+            }, 3500);
+        }
+    </script>
+</body>
+</html>
